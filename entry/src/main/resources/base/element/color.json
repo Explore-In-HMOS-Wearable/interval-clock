@@ -1,0 +1,32 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "countdown_color_gd_1",
+      "value": "#fe0b05"
+    },
+    {
+      "name": "countdown_color_gd_2",
+      "value": "#f2db62"
+    },
+    {
+      "name": "break_time_color_gd_1",
+      "value": "#01e7f7"
+    },
+    {
+      "name": "break_time_color_gd_2",
+      "value": "#48fe3f"
+    },
+    {
+      "name": "init_time_color_gd_1",
+      "value": "#ffffff"
+    },
+    {
+      "name": "init_time_color_gd_2",
+      "value": "#ffababab"
+    }
+  ]
+}
