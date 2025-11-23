@@ -1,14 +1,31 @@
 import TimerConstants from '../../common/constants/TimerConstants';
 import { TimerService } from '../../viewmodel/TimerService';
-import { router } from '@kit.ArkUI';
-import { INavParams } from '../../common/interfaces/INavParams';
 
+export const TIMER_PAGE = 'TimerPage';
 
-@Entry
+@Builder
+export function TimerPageBuilder() {
+  Timer();
+}
+
+export class TimerPageParam {
+  fastDuration: number;
+  slowDuration: number;
+  repetitions: number;
+
+  constructor(fastDuration: number, slowDuration: number, repetitions: number) {
+    this.fastDuration = fastDuration;
+    this.slowDuration = slowDuration;
+    this.repetitions = repetitions;
+  }
+}
+
 @Component
 export struct Timer {
+  @Consume('NavPathStack') private pageStack: NavPathStack;
   private textTimerController: TextTimerController = new TextTimerController();
   private timerService: TimerService = new TimerService();
+  @State params: TimerPageParam = new TimerPageParam(0, 0, 0);
   @State fastDuration: number = 10;
   @State slowDuration: number = 5;
   @State repetitions: number = 2;
@@ -32,16 +49,11 @@ export struct Timer {
     this.timerService.clear();
   }
 
-  onBackPress(): boolean | void {
-    router.back();
-  }
-
   private loadParameters(): void {
-    const params = router.getParams() as INavParams;
-    if (params) {
-      this.fastDuration = params.fastDuration;
-      this.slowDuration = params.slowDuration;
-      this.repetitions = params.repetitions;
+    if (this.params) {
+      this.fastDuration = this.params.fastDuration;
+      this.slowDuration = this.params.slowDuration;
+      this.repetitions = this.params.repetitions;
       this.repetitionsRemain = this.repetitions;
     }
   }
@@ -120,36 +132,40 @@ export struct Timer {
   }
 
   build() {
-    Column() {
-      Stack() {
-        Progress({
-          value: this.remainderMs,
-          total: this.timerSec * TimerConstants.SEC_TO_MS,
-          type: ProgressType.Ring
-        })
-          .width('100%')
-          .color(this.currentGradient)
-          .style({ strokeWidth: 20, enableScanEffect: true })
-
-        Column() {
-          TextTimer({
-            isCountDown: true,
-            count: this.currentTimerCount,
-            controller: this.textTimerController
+    NavDestination() {
+      Column() {
+        Stack() {
+          Progress({
+            value: this.remainderMs,
+            total: this.timerSec * TimerConstants.SEC_TO_MS,
+            type: ProgressType.Ring
           })
-            .format(TimerConstants.TIME_FORMAT)
-            .fontColor(Color.White)
-            .fontSize(50)
-            .fontWeight(700)
+            .width('100%')
+            .color(this.currentGradient)
+            .style({ strokeWidth: 20, enableScanEffect: true })
 
-          //  Her fast & slow ekranında Round x/y yazısı gösterilir
-          Text(this.currentActivity + ' - Round ' + this.currentRoundDisplay + '/' + this.repetitions)
-            .fontSize(10)
+          Column() {
+            TextTimer({
+              isCountDown: true,
+              count: this.currentTimerCount,
+              controller: this.textTimerController
+            })
+              .format(TimerConstants.TIME_FORMAT)
+              .fontColor(Color.White)
+              .fontSize(50)
+              .fontWeight(700)
+
+            //  Her fast & slow ekranında Round x/y yazısı gösterilir
+            Text(this.currentActivity + ' - Round ' + this.currentRoundDisplay + '/' + this.repetitions)
+              .fontSize(10)
+          }
         }
       }
+      .height('100%')
+      .width('100%')
+      .padding(10)
     }
-    .height('100%')
-    .width('100%')
-    .padding(10)
+    .hideTitleBar(true)
+    .mode(NavDestinationMode.STANDARD)
   }
 }
