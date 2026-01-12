@@ -25,19 +25,19 @@ export struct Timer {
   @Consume('NavPathStack') private pageStack: NavPathStack;
   private textTimerController: TextTimerController = new TextTimerController();
   private timerService: TimerService = new TimerService();
-  @State params: TimerPageParam = new TimerPageParam(0, 0, 0);
-  @State fastDuration: number = 10;
-  @State slowDuration: number = 5;
+  params: TimerPageParam = new TimerPageParam(0, 0, 0);
+  fastDuration: number = 10;
+  slowDuration: number = 5;
   @State repetitions: number = 2;
-  @State repetitionsRemain: number = 3;
+  repetitionsRemain: number = 3;
   @State timerSec: number = 10;
   @State remainderMs: number = TimerConstants.INIT_COUNTDOWN_SEC * TimerConstants.SEC_TO_MS;
   @State currentTimerCount: number = TimerConstants.INIT_COUNTDOWN_SEC * TimerConstants.SEC_TO_MS;
   @State currentGradient: LinearGradient = TimerConstants.INIT_COUNTDOWN_GD;
-  @State isSlowDuration: boolean = false;
+  isSlowDuration: boolean = false;
   @State currentActivity: string = 'to Start!';
-  @State currentRepetition: number = 0;
-  @State currentRoundDisplay: number = 0; //  UI'de gösterilecek round sayısı
+  currentRepetition: number = 0;
+  @State currentRoundDisplay: number = 0; //  round count for UI
 
   aboutToAppear(): void {
     this.loadParameters();
@@ -98,7 +98,7 @@ export struct Timer {
     this.currentGradient = isSlowDuration ? TimerConstants.SLOW_DURATION_GD : TimerConstants.FAST_DURATION_GD;
     this.currentActivity = isSlowDuration ? 'Slow' : 'Fast';
 
-    //  UI'de gösterilecek round sayısını her turda güncelle
+    //  Update the number of rounds displayed in the UI for each round.
     this.currentRoundDisplay = this.currentRepetition + 1;
 
     this.textTimerController.reset();
@@ -122,7 +122,7 @@ export struct Timer {
         this.onCompleteAllTimers();
       }
     } else {
-      // Fast tamamlandı, sırada slow var
+      // Fast is done, slow is next.
       setTimeout((): void => this.startTimer(this.slowDuration, true), TimerConstants.DELAY);
     }
   }
@@ -155,8 +155,8 @@ export struct Timer {
               .fontSize(50)
               .fontWeight(700)
 
-            //  Her fast & slow ekranında Round x/y yazısı gösterilir
-            Text(this.currentActivity + ' - Round ' + this.currentRoundDisplay + '/' + this.repetitions)
+            //  The text "Round x/y" is displayed on every fast & slow screen.
+            Text(`${this.currentActivity} - Round ${this.currentRoundDisplay}/${this.repetitions}`)
               .fontSize(10)
           }
         }

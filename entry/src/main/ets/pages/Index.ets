@@ -40,7 +40,8 @@ struct Index {
                   }
                 })
 
-              Text(this.fastDuration + 'sec')
+              Text(`${this.fastDuration}sec`)
+
                 .fontSize(18)
                 .fontColor(Color.White)
                 .width(50)
@@ -83,7 +84,7 @@ struct Index {
                   }
                 })
 
-              Text(this.slowDuration + 'sec')
+              Text(`${this.slowDuration}sec`)
                 .fontSize(18)
                 .fontColor(Color.White)
                 .width(50)
