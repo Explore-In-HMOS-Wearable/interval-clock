@@ -7,9 +7,9 @@ It is an interval clock sample app for sports & outdoor users.
 # Preview
 
 <div>
-<img src="./screenshots/IndexPage.png" width="25%"/>
-<img src="./screenshots/StartCountdown.png" width="25%"/>
-<img src="./screenshots/Timer.png" width="25%"/>
+<img src="./Screenshots/IndexPage.png" width="25%"/>
+<img src="./Screenshots/StartCountdown.png" width="25%"/>
+<img src="./Screenshots/Timer.png" width="25%"/>
 </div>
 
 # Use Cases
